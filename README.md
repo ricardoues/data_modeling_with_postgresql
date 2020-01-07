@@ -20,6 +20,26 @@ And the following fact table:
 
 * songplays: records in log data associated with song plays i.e. records with page NextSong.
 
-This schema is very convenient since that with the fact table we can get the information that we need to get insights from the song that the users play without the needing of doing any kind of join.
+This schema is very convenient since that with the fact table we can get the information that we need to get insights from the song that the users play without the needing of doing any kind of join.  
 
+
+# Files 
+The project has the following files: 
+
+* test.ipynb displays the first few rows of each table to let you check your database.
+* create_tables.py drops and creates your tables. You run this file to reset your tables before each time you run your ETL scripts.
+* etl.ipynb reads and processes a single file from song_data and log_data and loads the data into your tables. This notebook contains detailed instructions on the ETL process for each of the tables.
+* etl.py reads and processes files from song_data and log_data and loads them into your tables. You can fill this out based on your work in the ETL notebook.
+* sql_queries.py contains all your sql queries, and is imported into the last three files above.
+* README.md provides discussion on your project.
+
+# How to run the code 
+You must have postgreSQL 9.5 or greater installed in your computer, moreover you must have
+Python 3.6 or greater installed in your computer. In the file requirements.txt there is a list of the packages that you must install in your computer in order to run codes properly.
+
+Below are steps you can follow to run the codes:
+
+* Run from a terminal create_tables.py to create your database and tables.
+* Run from a terminal etl.py to run the ETL pipeline that load the data into postgreSQL tables.
+* Run using jupyter notebook the file test.ipynb to confirm the result of running the ETL pipeline.
 
