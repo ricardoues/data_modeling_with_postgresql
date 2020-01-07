@@ -24,11 +24,20 @@ def process_song_file(cur, filepath):
     song_data[3] = song_data[3].item()
     song_data[4] = song_data[4].item()
     
-    cur.execute(song_table_insert, song_data)
+    try:
+        cur.execute(song_table_insert, song_data)
+    except Exception as error:
+        print("Oops! An exception has occured:", error)
+        print("Exception TYPE:", type(error))
     
     artist_data = list(df[["artist_id", "artist_name", "artist_location", "artist_latitude", "artist_longitude"]].iloc[0,:].values)
-    cur.execute(artist_table_insert, artist_data)
-
+    
+    try:
+        cur.execute(artist_table_insert, artist_data)
+    except Exception as error:
+        print("Oops! An exception has occured:", error)
+        print("Exception TYPE:", type(error))        
+        
 
 def process_log_file(cur, filepath):
     """Get the information of a log file under the provided filepath \
@@ -57,16 +66,42 @@ def process_log_file(cur, filepath):
     time_df = pd.DataFrame.from_dict(dict_data)
 
     for i, row in time_df.iterrows():
-        cur.execute(time_table_insert, list(row))
+        try:
+            cur.execute(time_table_insert, list(row))
+        except Exception as error:
+            print("Oops! An exception has occured:", error)
+            print("Exception TYPE:", type(error))        
+                    
 
     user_df = df[["userId", "firstName", "lastName", "gender", "level"]]
 
     for i, row in user_df.iterrows():
-        cur.execute(user_table_insert, row)
+        try:
+            cur.execute(user_table_insert, row)
+        except Exception as error:
+            print("Oops! An exception has occured:", error)
+            print("Exception TYPE:", type(error))        
+            
+        
 
-    for index, row in df.iterrows():        
-        cur.execute(song_select, (row.song, row.artist, row.length))
-        results = cur.fetchone()
+    for index, row in df.iterrows():      
+        
+        try:
+            cur.execute(song_select, (row.song, row.artist, row.length))
+        except Exception as error:
+            print("Oops! An exception has occured:", error)
+            print("Exception TYPE:", type(error))        
+            continue 
+            
+            
+        try:
+            results = cur.fetchone()
+        except Exception as error:
+            print("Oops! An exception has occured:", error)
+            print("Exception TYPE:", type(error))        
+            continue 
+            
+            
         
         if results:
             songid, artistid = results
@@ -74,7 +109,15 @@ def process_log_file(cur, filepath):
             songid, artistid = None, None
 
         songplay_data = (row.ts, row.userId, row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
-        cur.execute(songplay_table_insert, songplay_data)
+        
+        try:
+            cur.execute(songplay_table_insert, songplay_data)
+        except Exception as error:
+            print("Oops! An exception has occured:", error)
+            print("Exception TYPE:", type(error))
+            continue
+            
+            
 
 
 def process_data(cur, conn, filepath, func):
@@ -88,7 +131,7 @@ def process_data(cur, conn, filepath, func):
         func (function): the python function to be used to process the song or log files
     
     Returns: 
-        Nothing, the function simply performs data processing            
+        None, the function simply performs data processing            
     """     
     
     all_files = []
