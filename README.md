@@ -35,7 +35,7 @@ The project has the following files:
 
 # How to run the code 
 You must have postgreSQL 9.5 or greater installed in your computer, moreover you must have
-Python 3.6 or greater installed in your computer. In the file requirements.txt there is a list of the packages that you must install in your computer in order to run codes properly.
+Python 3.6 or greater installed in your computer. In the file requirements.txt there is a list of the packages that you must install in your computer in order to run the codes properly.
 
 Below are steps you can follow to run the codes:
 
